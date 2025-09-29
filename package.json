@@ -9,6 +9,7 @@
     "test": "eventvisor test"
   },
   "dependencies": {
-    "@eventvisor/cli": "0.1.0"
+    "@eventvisor/cli": "0.1.0",
+    "wrangler": "^4.40.2"
   }
 }

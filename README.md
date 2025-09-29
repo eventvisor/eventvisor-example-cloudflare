@@ -37,7 +37,7 @@ Learn more about [SDK usage here](https://eventvisor.org/docs/sdks/javascript/).
 
 ## Installation
 
-Since this example app lives outside of the Eventvisor [monorepo](https://github.com/featurevisor/eventvisor), you are recommended to make sure [`package.json`](./package.json) has the latest version of [`@eventvisor/cli`](https://www.npmjs.com/package/@eventvisor/cli) package.
+Since this example app lives outside of the Eventvisor [monorepo](https://github.com/eventvisor/eventvisor), you are recommended to make sure [`package.json`](./package.json) has the latest version of [`@eventvisor/cli`](https://www.npmjs.com/package/@eventvisor/cli) package.
 
 ```
 $ npm ci

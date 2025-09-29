@@ -1,0 +1,53 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  ci:
+    name: Publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npx eventvisor lint
+
+      - name: Test specs
+        run: npx eventvisor test
+
+      - name: Build
+        run: npx eventvisor build
+
+      - name: Git configs
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Upload to Cloudflare Pages
+        run: |
+          echo "<html><body>It works.</body></html>" > datafiles/index.html
+          npx wrangler pages deploy datafiles --project-name="eventvisor-example-cloudflare"
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Push back to origin
+        run: |
+          git add .eventvisor/*
+          git commit -m "[skip ci] Revision $(cat .eventvisor/REVISION)"
+          git push
